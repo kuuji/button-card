@@ -60,7 +60,7 @@ Lovelace Button card for your entities.
 ## Features
 
 - works with any toggleable entity
-- 6 available actions on **tap** and/or **hold** and/or **double click**: `none`, `toggle`, `more-info`, `navigate`, `url` and `call-service`
+- 6 available actions on **tap** and/or **hold** and/or **double click** and/or **press**and/or **release**: `none`, `toggle`, `more-info`, `navigate`, `url` and `call-service`
 - state display (optional)
 - custom color (optional), or based on light rgb value/temperature
 - custom state definition with customizable color, icon and style (optional)
@@ -101,6 +101,8 @@ Lovelace Button card for your entities.
 | `tap_action`          | object          | optional     | See [Action](#Action)                                  | Define the type of action on click, if undefined, toggle will be used.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `hold_action`         | object          | optional     | See [Action](#Action)                                  | Define the type of action on hold, if undefined, nothing happens.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `double_tap_action`   | object          | optional     | See [Action](#Action)                                  | Define the type of action on double click, if undefined, nothing happens.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `press_action` | object | optional | See [Action](#Action) | Define the type of action on press (triggers the moment your finger presses the button), if undefined, nothing happens. |
+| `release_action` | object | optional | See [Action](#Action) | Define the type of action on releasing the button, if undefined, nothing happens. |
 | `name`                | string          | optional     | `Air conditioner`                                      | Define an optional text to show below the icon. Supports templates, see [templates](#javascript-templates)                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `state_display`       | string          | optional     | `On`                                                   | Override the way the state is displayed. Supports templates, see [templates](#javascript-templates)                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `label`               | string          | optional     | Any string that you want                               | Display a label below the card. See [Layouts](#layout) for more information. Supports templates, see [templates](#javascript-templates)                                                                                                                                                                                                                                                                                                                                                                      |
@@ -124,7 +126,6 @@ Lovelace Button card for your entities.
 | `variables`           | object          | optional     | See [Variables](#Variables)                            |
 | `card_size`           | number          | 3            | Any number                                             | Configure the card size seen by the auto layout feature of lovelace (lovelace will multiply the value by about 50px)                                                                                                                                                                                                                                                                                                                                                                                         |
 | `tooltip`             | string          | optional     | Any string                                             | (Not supported on touchscreens) You can configure the tooltip displayed after hovering the card for 1.5 seconds . Supports templates, see [templates](#javascript-templates)                                                                                                                                                                                                                                                                                                                                 |
-
 ### Action
 
 All the fields support templates, see [templates](#javascript-templates).
@@ -750,7 +751,7 @@ Examples are better than a long text, so here you go:
 
 #### General
 
-- Define your config template in the main lovelace configuration and then use it in your button-card. This will avoid a lot of repetitions! It's basically YAML anchors, but without using YAML anchors and is very useful if you split your config in multiple files 😄  
+- Define your config template in the main lovelace configuration and then use it in your button-card. This will avoid a lot of repetitions! It's basically YAML anchors, but without using YAML anchors and is very useful if you split your config in multiple files 😄
 - You can overload any parameter with a new one
 - You can merge states together **by `id`** when using templates. The states you want to merge have to have the same `id`. This `id` parameter is new and can be anything (string, number, ...). States without `id` will be appended to the state array. Styles embedded in a state are merged together as usual. See [here](#merging-state-by-id) for an example.
 - You can also inherit another template from within a template.
@@ -768,7 +769,7 @@ Examples are better than a long text, so here you go:
 Make sure which type of lovelace dashboard you are using before changing the main lovelace configuration:
   * **`managed`** changes are managed by lovelace ui - add the template configuration to configuration in raw editor
       * go to your dashboard
-      * click three dots and `Edit dashboard` button 
+      * click three dots and `Edit dashboard` button
       * click three dots again and click `Raw configuration editor` button
   * **`yaml`** - add template configuration to your `ui-lovelace.yaml`
 

@@ -21,6 +21,7 @@ import {
   stateIcon,
   HomeAssistant,
   handleClick,
+  handleActionConfig,
   getLovelace,
   timerTimeRemaining,
   secondsToDuration,
@@ -653,7 +654,15 @@ class ButtonCard extends LitElement {
     const tap_action = this._getTemplateOrValue(state, this._config!.tap_action!.action);
     const hold_action = this._getTemplateOrValue(state, this._config!.hold_action!.action);
     const double_tap_action = this._getTemplateOrValue(state, this._config!.double_tap_action!.action);
-    if (tap_action != 'none' || hold_action != 'none' || double_tap_action != 'none') {
+    const press_action = this._getTemplateOrValue(state, this._config!.press_action!.action);
+    const release_action = this._getTemplateOrValue(state, this._config!.release_action!.action);
+    if (
+      tap_action != 'none' ||
+      hold_action != 'none' ||
+      double_tap_action != 'none' ||
+      press_action != 'none' ||
+      release_action != 'none'
+    ) {
       clickable = true;
     } else {
       clickable = false;
@@ -969,6 +978,8 @@ class ButtonCard extends LitElement {
       group_expand: false,
       hold_action: { action: 'none' },
       double_tap_action: { action: 'none' },
+      press_action: { action: 'none' },
+      release_action: { action: 'none' },
       layout: 'vertical',
       size: '40%',
       color_type: 'icon',
@@ -1117,6 +1128,12 @@ class ButtonCard extends LitElement {
   private _handleAction(ev: any): void {
     if (ev.detail?.action) {
       switch (ev.detail.action) {
+        case 'press':
+          this._handlePress();
+          break;
+        case 'release':
+          this._handleRelease();
+          break;
         case 'tap':
           this._handleTap();
           break;
@@ -1130,6 +1147,24 @@ class ButtonCard extends LitElement {
           break;
       }
     }
+  }
+
+  private _handlePress(): void {
+    const config = this._config;
+    if (!config) return;
+    const actionConfig = this._evalActions(config, 'press_action');
+    if (!actionConfig || !actionConfig.press_action) return;
+
+    handleActionConfig(this, this._hass!, actionConfig, actionConfig.press_action);
+  }
+
+  private _handleRelease(): void {
+    const config = this._config;
+    if (!config) return;
+    const actionConfig = this._evalActions(config, 'release_action');
+    if (!actionConfig || !actionConfig.release_action) return;
+
+    handleActionConfig(this, this._hass!, actionConfig, actionConfig.release_action);
   }
 
   private _handleTap(): void {
